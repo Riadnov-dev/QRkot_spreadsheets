@@ -63,8 +63,8 @@ class CRUDCharityProject(CRUDBase[CharityProject, CharityProjectUpdate]):
             select(self.model)
             .where(self.model.fully_invested.is_(True))
             .order_by(
-                func.julianday(self.model.close_date)
-                - func.julianday(self.model.create_date)
+                func.julianday(self.model.close_date) -
+                func.julianday(self.model.create_date)
             )
         )
         projects = await session.execute(stmt)
