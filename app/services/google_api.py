@@ -90,8 +90,8 @@ async def spreadsheets_update_value(
         *table_header,
         *[
             [
-                attr.name, 
-                str(duration), 
+                attr.name,
+                str(duration),
                 attr.description
             ]
             for attr in projects

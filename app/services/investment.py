@@ -4,7 +4,6 @@ from typing import Union
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import CharityProject, Donation
-from crud import charity_project_crud, donation_crud
 
 
 async def invest(
