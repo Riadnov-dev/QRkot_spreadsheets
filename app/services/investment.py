@@ -4,6 +4,7 @@ from typing import Union
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import CharityProject, Donation
+from crud import charity_project_crud, donation_crud
 
 
 async def invest(
@@ -21,7 +22,6 @@ async def invest(
             obj_to_invest.full_amount - obj_to_invest.invested_amount
         )
         free_amount = investment.full_amount - investment.invested_amount
-
         if amount_to_invest >= free_amount:
             investment.invested_amount += free_amount
             obj_to_invest.invested_amount += free_amount
@@ -39,7 +39,6 @@ async def invest(
     if obj_to_invest.invested_amount >= obj_to_invest.full_amount:
         obj_to_invest.fully_invested = True
         obj_to_invest.close_date = close_date
-
     session.add(obj_to_invest)
     await session.commit()
     await session.refresh(obj_to_invest)

@@ -5,6 +5,12 @@ from pydantic import BaseModel, Extra, Field, PositiveInt, validator
 from app.schemas.base import BaseDB
 
 
+FULL_AMOUNT_1 = 25000
+FULL_AMOUNT_2 = 40000
+FULL_AMOUNT_3 = 15000
+FULL_AMOUNT_4 = 30000
+
+
 class CharityProjectBase(BaseModel):
     """Базовая pydantic-схема благотворительного проекта."""
 
@@ -28,7 +34,7 @@ class CharityProjectUpdate(CharityProjectBase):
                     "value": {
                         "name": "Cat Medical Fund",
                         "description": "Raising funds for medical treatment",
-                        "full_amount": 25000,
+                        "full_amount": FULL_AMOUNT_1,
                     },
                 },
                 "example_2": {
@@ -37,7 +43,7 @@ class CharityProjectUpdate(CharityProjectBase):
                     "value": {
                         "name": "Winter Shelter for Cats",
                         "description": "Building a warm shelter for cats",
-                        "full_amount": 40000,
+                        "full_amount": FULL_AMOUNT_2,
                     },
                 },
             }
@@ -68,7 +74,7 @@ class CharityProjectCreate(CharityProjectBase):
                     "value": {
                         "name": "Cat Food Fund",
                         "description": "Raising funds to buy quality food",
-                        "full_amount": 15000,
+                        "full_amount": FULL_AMOUNT_3,
                     },
                 },
                 "example_2": {
@@ -77,7 +83,7 @@ class CharityProjectCreate(CharityProjectBase):
                     "value": {
                         "name": "Cat Sterilization Fund",
                         "description": "Raising funds for sterilization",
-                        "full_amount": 30000,
+                        "full_amount": FULL_AMOUNT_4,
                     },
                 },
             }
@@ -86,5 +92,3 @@ class CharityProjectCreate(CharityProjectBase):
 
 class CharityProjectDB(CharityProjectBase, BaseDB):
     """Pydantic-схема для вывода информации о благотворительном проекте."""
-
-    pass

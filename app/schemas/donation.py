@@ -5,10 +5,12 @@ from pydantic import BaseModel, Field, PositiveInt
 
 from app.schemas.base import BaseDB
 
+EXAMPLE = 10000
+
 
 class DonationCreate(BaseModel):
     """Pydantic-схема для создания пожертвования."""
-    full_amount: PositiveInt = Field(example=10000)
+    full_amount: PositiveInt = Field(example=EXAMPLE)
     comment: Optional[str] = None
 
 

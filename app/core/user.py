@@ -26,6 +26,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 MIN_PASSWORD_LENGTH = 3
+LIFETIME_SECONDS = 3600
 
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
@@ -36,7 +37,10 @@ bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
 
 def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=settings.secret, lifetime_seconds=3600)
+    return JWTStrategy(
+        secret=settings.secret,
+        lifetime_seconds=LIFETIME_SECONDS
+    )
 
 
 auth_backend = AuthenticationBackend(

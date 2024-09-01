@@ -1,7 +1,9 @@
-from aiogoogle import Aiogoogle
-from fastapi import APIRouter, Depends, HTTPException
 from http import HTTPStatus
+
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from aiogoogle import Aiogoogle
 
 from app.core.db import get_async_session
 from app.core.google_client import get_service

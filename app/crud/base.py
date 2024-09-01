@@ -11,6 +11,9 @@ from app.models import User
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 
+SKIP = 0
+LIMIT = 100
+
 
 class CRUDBase(Generic[ModelType, CreateSchemaType]):
     """Базовый класс для выполнения операций получения и создания объектов."""
@@ -29,7 +32,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
         return obj.scalars().first()
 
     async def get_multi(
-        self, session: AsyncSession, skip: int = 0, limit: int = 100
+        self, session: AsyncSession, skip: int = SKIP, limit: int = LIMIT
     ) -> list[ModelType]:
         """Получить список объектов модели с поддержкой пагинации."""
         db_objs = await session.execute(select(self.model).offset(
