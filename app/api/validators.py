@@ -11,7 +11,7 @@ from app.schemas import CharityProjectUpdate
 async def ensure_project_exists(
     project_id: int, session: AsyncSession
 ) -> CharityProject:
-    """Проверка существования проекта с указанным ID."""
+    """Check if a project with the given ID exists."""
     charity_project = await charity_project_crud.get(
         obj_id=project_id,
         session=session
@@ -27,7 +27,7 @@ async def ensure_project_exists(
 async def ensure_project_name_is_unique(
     project_name: str, session: AsyncSession
 ) -> None:
-    """Проверка уникальности имени проекта."""
+    """Check if the project name is unique."""
     project_id = await charity_project_crud.get_project_id_by_name(
         project_name=project_name,
         session=session
@@ -42,7 +42,7 @@ async def ensure_project_name_is_unique(
 async def ensure_project_can_be_updated(
     charity_project: CharityProject, update_data: CharityProjectUpdate
 ) -> None:
-    """Проверка возможности обновления проекта."""
+    """Check if the project can be updated."""
     if charity_project.fully_invested:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
@@ -60,7 +60,7 @@ async def ensure_project_can_be_updated(
 
 async def ensure_project_is_not_funded(charity_project: CharityProject
                                        ) -> None:
-    """Проверка на отсутствие внесенных средств в проект."""
+    """Check that no funds have been invested in the project."""
     if charity_project.invested_amount:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
