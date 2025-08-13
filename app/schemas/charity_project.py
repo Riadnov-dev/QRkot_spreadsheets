@@ -12,7 +12,7 @@ FULL_AMOUNT_4 = 30000
 
 
 class CharityProjectBase(BaseModel):
-    """Базовая pydantic-схема благотворительного проекта."""
+    """Base Pydantic schema for a charity project."""
 
     name: Optional[str] = Field(None, min_length=1, max_length=100)
     description: Optional[str] = Field(None, min_length=1)
@@ -23,14 +23,14 @@ class CharityProjectBase(BaseModel):
 
 
 class CharityProjectUpdate(CharityProjectBase):
-    """Pydantic-схема для обновления благотворительного проекта."""
+    """Pydantic schema for updating a charity project."""
 
     class Config:
         schema_extra = {
             "examples": {
                 "example_1": {
-                    "summary": "Изменение медицинского фонда для котов",
-                    "description": "Обновление информации о сборе средств",
+                    "summary": "Update medical fund for cats",
+                    "description": "Updating fundraising information",
                     "value": {
                         "name": "Cat Medical Fund",
                         "description": "Raising funds for medical treatment",
@@ -38,8 +38,8 @@ class CharityProjectUpdate(CharityProjectBase):
                     },
                 },
                 "example_2": {
-                    "summary": "Изменение зимнего убежища для котов",
-                    "description": "Обновление информации о строительстве",
+                    "summary": "Update winter shelter for cats",
+                    "description": "Updating construction details",
                     "value": {
                         "name": "Winter Shelter for Cats",
                         "description": "Building a warm shelter for cats",
@@ -51,15 +51,14 @@ class CharityProjectUpdate(CharityProjectBase):
 
     @validator("name", "description", "full_amount")
     def fields_cannot_be_null(cls, value):
-        """Проверяет, что при изменении обязательных полей объекта,
-        их значения не стали пустыми."""
+        """Validate that required fields are not set to null when updating."""
         if value is None:
-            raise ValueError("Поле не может быть пустым!")
+            raise ValueError("Field cannot be empty!")
         return value
 
 
 class CharityProjectCreate(CharityProjectBase):
-    """Pydantic-схема для создания благотворительного проекта."""
+    """Pydantic schema for creating a charity project."""
 
     name: str = Field(..., min_length=1, max_length=100)
     description: str = Field(..., min_length=1)
@@ -69,8 +68,8 @@ class CharityProjectCreate(CharityProjectBase):
         schema_extra = {
             "examples": {
                 "example_1": {
-                    "summary": "Создание фонда на покупку корма для котов",
-                    "description": "Сбор средств на покупку корма",
+                    "summary": "Create a fund for purchasing cat food",
+                    "description": "Fundraising to buy food",
                     "value": {
                         "name": "Cat Food Fund",
                         "description": "Raising funds to buy quality food",
@@ -78,8 +77,8 @@ class CharityProjectCreate(CharityProjectBase):
                     },
                 },
                 "example_2": {
-                    "summary": "Создание фонда для стерилизации котов",
-                    "description": "Сбор средств для стерилизации",
+                    "summary": "Create a fund for cat sterilization",
+                    "description": "Fundraising for sterilization",
                     "value": {
                         "name": "Cat Sterilization Fund",
                         "description": "Raising funds for sterilization",
@@ -91,4 +90,4 @@ class CharityProjectCreate(CharityProjectBase):
 
 
 class CharityProjectDB(CharityProjectBase, BaseDB):
-    """Pydantic-схема для вывода информации о благотворительном проекте."""
+    """Pydantic schema for representing a charity project."""
