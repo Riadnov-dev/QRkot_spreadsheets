@@ -11,8 +11,8 @@ async def invest(
     investments: Union[list[CharityProject], list[Donation]],
     session: AsyncSession,
 ) -> None:
-    """Распределяет средства между проектами и пожертвованиями,
-    закрывая их при полном финансировании.
+    """Distributes funds between projects and donations,
+    closing them when fully funded.
     """
     close_date = datetime.now()
 
