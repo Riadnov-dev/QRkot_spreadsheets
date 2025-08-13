@@ -11,14 +11,14 @@ from app.schemas import CharityProjectUpdate
 
 
 class CRUDCharityProject(CRUDBase[CharityProject, CharityProjectUpdate]):
-    """Класс для реализации уникальных методов модели CharityProject."""
+    """Class for implementing unique methods of the CharityProject model."""
 
     async def update(
         self, db_obj: CharityProject,
         data: CharityProjectUpdate,
         session: AsyncSession
     ) -> CharityProject:
-        """Внести изменения в благотворительный проект."""
+        """Make changes to a charity project."""
         old_obj_data = jsonable_encoder(db_obj)
         new_obj_data = data.dict(exclude_unset=True)
 
@@ -38,7 +38,7 @@ class CRUDCharityProject(CRUDBase[CharityProject, CharityProjectUpdate]):
     async def delete(
         self, db_obj: CharityProject, session: AsyncSession
     ) -> CharityProject:
-        """Удалить благотворительный проект."""
+        """Delete a charity project."""
         await session.delete(db_obj)
         await session.commit()
         return db_obj
@@ -46,7 +46,7 @@ class CRUDCharityProject(CRUDBase[CharityProject, CharityProjectUpdate]):
     async def get_project_id_by_name(
         self, project_name: str, session: AsyncSession
     ) -> Optional[int]:
-        """Получить по названию благотворительного проекта его id."""
+        """Retrieve the ID of a charity project by its name."""
         project_id = await session.execute(
             select(self.model.id).where(self.model.name == project_name)
         )
@@ -56,8 +56,8 @@ class CRUDCharityProject(CRUDBase[CharityProject, CharityProjectUpdate]):
         self, session: AsyncSession
     ) -> list[CharityProject]:
         """
-        Возвращает список закрытых проектов,
-        отсортированных по скорости сбора средств.
+        Return a list of closed projects
+        sorted by the speed of fundraising.
         """
         stmt = (
             select(self.model)
