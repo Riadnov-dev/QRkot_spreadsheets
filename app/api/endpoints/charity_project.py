@@ -23,12 +23,12 @@ router = APIRouter()
 @router.get('/',
             response_model=list[CharityProjectDB],
             response_model_exclude_none=True,
-            summary="Получить список всех благотворительных проектов"
+            summary="Retrieve a list of charity projects"
             )
 async def retrieve_all_charity_projects(
         session: AsyncSession = Depends(get_async_session)
 ):
-    """Получение списка благотворительных проектов."""
+    """Retrieve a list of charity projects."""
     return await charity_project_crud.get_multi(session=session)
 
 
@@ -36,7 +36,7 @@ async def retrieve_all_charity_projects(
              response_model=CharityProjectDB,
              response_model_exclude_none=True,
              dependencies=[Depends(current_superuser)],
-             summary="Создание благотворительного проекта"
+             summary="Create a charity project"
              )
 async def create_charity_project(
         project: CharityProjectCreate = Body(
@@ -44,7 +44,7 @@ async def create_charity_project(
         ),
         session: AsyncSession = Depends(get_async_session)
 ):
-    """Создание благотворительного проекта. Только для суперпользователей."""
+    """Create a charity project. Available to superusers only."""
     await ensure_project_name_is_unique(project.name, session)
     new_project = await charity_project_crud.create(
         data=project, session=session)
@@ -57,7 +57,7 @@ async def create_charity_project(
 @router.patch('/{project_id}',
               response_model=CharityProjectDB,
               dependencies=[Depends(current_superuser)],
-              summary="Обновление благотворительного проекта"
+              summary="Update a charity project"
               )
 async def modify_charity_project(
         project_id: int,
@@ -66,7 +66,7 @@ async def modify_charity_project(
         ),
         session: AsyncSession = Depends(get_async_session)
 ):
-    """Изменение благотворительного проекта. Только для суперпользователей."""
+    """Update a charity project. Available to superusers only."""
     charity_project = await ensure_project_exists(project_id, session)
     await ensure_project_can_be_updated(charity_project, update_data)
     if update_data.name is not None:
@@ -83,13 +83,13 @@ async def modify_charity_project(
 @router.delete('/{project_id}',
                response_model=CharityProjectDB,
                dependencies=[Depends(current_superuser)],
-               summary="Удаление благотворительного проекта"
+               summary="Delete a charity project"
                )
 async def remove_charity_project(
         project_id: int,
         session: AsyncSession = Depends(get_async_session)
 ):
-    """Удаление благотворительного проекта. Только для суперпользователей."""
+    """Delete a charity project. Available to superusers only."""
     charity_project = await ensure_project_exists(project_id, session)
     await ensure_project_is_not_funded(charity_project)
     return await charity_project_crud.delete(charity_project, session)
