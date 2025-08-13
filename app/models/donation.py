@@ -4,7 +4,7 @@ from app.models.base import BaseCharityModel
 
 
 class Donation(BaseCharityModel):
-    """Модель пожертвования."""
+    """Fundraising donation model."""
 
     __tablename__ = "donation"
 
