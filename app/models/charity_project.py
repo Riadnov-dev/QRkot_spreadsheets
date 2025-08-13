@@ -4,7 +4,7 @@ from app.models.base import BaseCharityModel
 
 
 class CharityProject(BaseCharityModel):
-    """Модель благотворительного проекта."""
+    """"Charity project model."""
 
     __tablename__ = "charityproject"
 
