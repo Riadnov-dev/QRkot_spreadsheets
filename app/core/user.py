@@ -71,7 +71,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             user: User,
             request: Optional[Request] = None
     ):
-        logger.info(f"Пользователь {user.email} зарегистрирован.")
+        logger.info(f"User {user.email} has been registered.")
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
