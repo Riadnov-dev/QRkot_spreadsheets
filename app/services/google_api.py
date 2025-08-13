@@ -9,11 +9,11 @@ from app.models import CharityProject
 FORMAT = "%Y/%m/%d %H:%M:%S"
 ROW_COUNT = 100
 COLUMN_COUNT = 100
-SPREADSHEET_TITLE = "Отчет на {date}"
+SPREADSHEET_TITLE = "Report as of {date}"
 
 
 def generate_spreadsheet_body(date: str) -> dict:
-    """Генерирует тело запроса для создания таблицы."""
+    """Generate the request body for creating a spreadsheet."""
     return {
         "properties": {
             "title": SPREADSHEET_TITLE.format(date=date),
@@ -23,7 +23,7 @@ def generate_spreadsheet_body(date: str) -> dict:
             "properties": {
                 "sheetType": "GRID",
                 "sheetId": 0,
-                "title": "Лист1",
+                "title": "Sheet1",
                 "gridProperties": {
                     "rowCount": ROW_COUNT,
                     "columnCount": COLUMN_COUNT,
@@ -34,9 +34,9 @@ def generate_spreadsheet_body(date: str) -> dict:
 
 
 TABLE_HEADER = [
-    ["Отчет от", None],
-    ["Топ проектов по скорости закрытия"],
-    ["Название проекта", "Время сбора", "Описание"]
+    ["Report date", None],
+    ["Top projects by completion speed"],
+    ["Project name", "Duration", "Description"]
 ]
 
 
@@ -44,7 +44,7 @@ async def spreadsheets_create(
         wrapper_services: Aiogoogle,
         spreadsheet_body=None
 ) -> str:
-    """Создает новую таблицу в Google Sheets."""
+    """Create a new spreadsheet in Google Sheets."""
     if spreadsheet_body is None:
         date_now = datetime.now().strftime(FORMAT)
         spreadsheet_body = generate_spreadsheet_body(date_now)
@@ -59,7 +59,7 @@ async def set_user_permissions(
         spreadsheetid: str,
         wrapper_services: Aiogoogle
 ) -> None:
-    """Выдает доступ пользователю к созданной таблице."""
+    """Grant user access to the created spreadsheet."""
     permissions_body = {
         "type": "user",
         "role": "writer",
@@ -80,7 +80,7 @@ async def spreadsheets_update_value(
         projects: list[CharityProject],
         wrapper_services: Aiogoogle
 ) -> None:
-    """Обновляет данные в таблице Google Sheets."""
+    """Update data in the Google Sheets spreadsheet."""
     service = await wrapper_services.discover("sheets", "v4")
     date_now = datetime.now().strftime(FORMAT)
     table_header = deepcopy(TABLE_HEADER)
@@ -104,9 +104,9 @@ async def spreadsheets_update_value(
 
     if rows > ROW_COUNT or cols > COLUMN_COUNT:
         raise ValueError(
-            f"Превышены габариты таблицы. "
-            f"Сформировано строк {rows}. Допустимо {ROW_COUNT}. "
-            f"Сформировано столбцов {cols}. Допустимо {COLUMN_COUNT}. "
+            f"Table size exceeded. "
+            f"Rows generated: {rows}. Allowed: {ROW_COUNT}. "
+            f"Columns generated: {cols}. Allowed: {COLUMN_COUNT}. "
         )
 
     update_body = {
@@ -122,3 +122,4 @@ async def spreadsheets_update_value(
             json=update_body
         )
     )
+
