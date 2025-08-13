@@ -19,7 +19,7 @@ async def ensure_project_exists(
     if charity_project is None:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail="Проект с указанным ID не найден!"
+            detail="Project with the specified ID not found!"
         )
     return charity_project
 
@@ -35,7 +35,7 @@ async def ensure_project_name_is_unique(
     if project_id is not None:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail="Проект с таким именем уже существует!"
+            detail="A project with this name already exists!"
         )
 
 
@@ -46,7 +46,7 @@ async def ensure_project_can_be_updated(
     if charity_project.fully_invested:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail="Невозможно редактировать проект, так как он уже закрыт!",
+            detail="It is not possible to edit the project as it is already closed!",
         )
     if (
         update_data.full_amount and (
@@ -54,7 +54,7 @@ async def ensure_project_can_be_updated(
     ):
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail="Новая сумма не может быть меньше уже вложенной!"
+            detail="The new amount cannot be less than the already invested amount!"
         )
 
 
@@ -64,5 +64,5 @@ async def ensure_project_is_not_funded(charity_project: CharityProject
     if charity_project.invested_amount:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail="Проект уже профинансирован, удаление невозможно!"
+            detail="The project is already funded, deletion is not possible!"
         )
