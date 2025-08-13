@@ -9,13 +9,13 @@ EXAMPLE = 10000
 
 
 class DonationCreate(BaseModel):
-    """Pydantic-схема для создания пожертвования."""
+    """Pydantic schema for creating a donation."""
     full_amount: PositiveInt = Field(example=EXAMPLE)
     comment: Optional[str] = None
 
 
 class DonationFullDB(DonationCreate, BaseDB):
-    """Pydantic-схема для вывода полной информации о пожертвовании."""
+    """Pydantic schema for representing full donation details."""
     user_id: int
 
     class Config:
@@ -23,7 +23,7 @@ class DonationFullDB(DonationCreate, BaseDB):
 
 
 class DonationShortDB(DonationCreate):
-    """Pydantic-схема для вывода короткой информации о пожертвовании."""
+    """Pydantic schema for representing short donation details."""
     id: int
     create_date: datetime
 
