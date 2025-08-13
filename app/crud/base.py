@@ -16,7 +16,7 @@ LIMIT = 100
 
 
 class CRUDBase(Generic[ModelType, CreateSchemaType]):
-    """Базовый класс для выполнения операций получения и создания объектов."""
+    """Base class for performing object retrieval and creation operations."""
 
     def __init__(self, model: Type[ModelType]):
         self.model = model
@@ -25,7 +25,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
             self, obj_id: int,
             session: AsyncSession
     ) -> Optional[ModelType]:
-        """Получить объект модели по id."""
+        """Retrieve a model object by ID."""
         obj = await session.execute(select(self.model).where(
             self.model.id == obj_id)
         )
@@ -34,7 +34,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
     async def get_multi(
         self, session: AsyncSession, skip: int = SKIP, limit: int = LIMIT
     ) -> list[ModelType]:
-        """Получить список объектов модели с поддержкой пагинации."""
+        """Retrieve a list of model objects with pagination support."""
         db_objs = await session.execute(select(self.model).offset(
             skip).limit(limit))
         return db_objs.scalars().all()
@@ -44,7 +44,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
         session: AsyncSession,
         user: Optional[User] = None
     ) -> ModelType:
-        """Создать объект модели и записать в БД."""
+        """Create a model object and save it to the database."""
         new_obj_data = data.dict()
         if user is not None:
             new_obj_data["user_id"] = user.id
@@ -55,7 +55,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
         return new_obj
 
     async def get_active_objs(self, session: AsyncSession) -> list[ModelType]:
-        """Получить список активных объектов модели."""
+        """Retrieve a list of active model objects."""
         active_objs = await session.execute(
             select(self.model)
             .where(self.model.fully_invested == false())
@@ -69,7 +69,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
         obj_in: Union[CreateSchemaType, dict[str, Any]],
         session: AsyncSession,
     ) -> ModelType:
-        """Обновить объект модели в БД."""
+        """Update a model object in the database."""
         obj_data = jsonable_encoder(db_obj)
         if isinstance(obj_in, dict):
             update_data = obj_in
