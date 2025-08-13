@@ -7,7 +7,7 @@ INVESTED_AMOUNT = 0
 
 
 class BaseDB(BaseModel):
-    """Базовая pydantic-схема для вывода информации об объектах."""
+    """Base Pydantic schema for representing object information."""
 
     id: int
     invested_amount: int = INVESTED_AMOUNT
