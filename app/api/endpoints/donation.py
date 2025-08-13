@@ -16,14 +16,14 @@ router = APIRouter()
             response_model=list[DonationFullDB],
             response_model_exclude_none=True,
             dependencies=[Depends(current_superuser)],
-            summary="Получить список всех пожертвований"
+            summary="Retrieve a list of all donations"
             )
 async def get_all_donations(
         session: AsyncSession = Depends(get_async_session)
 ):
     """
-    Возвращает список всех пожертвований.
-    Доступно только суперпользователям.
+    Returns a list of all donations.
+    Available to superusers only.
     """
     return await donation_crud.get_multi(session=session)
 
@@ -31,7 +31,7 @@ async def get_all_donations(
 @router.post('/',
              response_model=DonationShortDB,
              response_model_exclude_none=True,
-             summary="Создание нового пожертвования"
+             summary="Create a new donation"
              )
 async def create_new_donation(
         donation: DonationCreate,
@@ -39,8 +39,8 @@ async def create_new_donation(
         user: User = Depends(current_user)
 ):
     """
-    Создаёт новое пожертвование, привязывая его к текущему пользователю.
-    Доступно только для авторизованных пользователей.
+    Creates a new donation and links it to the current user.
+    Available to authenticated users only.
     """
     new_donation = await donation_crud.create(
         data=donation, session=session, user=user)
@@ -53,15 +53,15 @@ async def create_new_donation(
 @router.get('/my',
             response_model=list[DonationShortDB],
             response_model_exclude_none=True,
-            summary="Получить список пожертвований пользователя"
+            summary="Retrieve the list of user's donations"
             )
 async def get_user_donations(
         session: AsyncSession = Depends(get_async_session),
         user: User = Depends(current_user)
 ):
     """
-    Возвращает список пожертвований, сделанных текущим пользователем.
-    Доступно только для авторизованных пользователей.
+    Returns a list of donations made by the current user.
+    Available to authenticated users only.
     """
     return await donation_crud.get_user_donations(
         session=session, user_id=user.id)
