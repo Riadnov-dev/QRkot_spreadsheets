@@ -6,7 +6,7 @@ from app.core.db import Base
 
 
 class BaseCharityModel(Base):
-    """Абстрактная модель для моделей приложения."""
+    """Abstract base model for application models."""
 
     __abstract__ = True
     full_amount = Column(Integer, nullable=False)
