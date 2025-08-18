@@ -30,7 +30,7 @@ Create projects with target amounts, accept donations that are auto-allocated to
 
 📜 Interactive API docs — OpenAPI available at /docs and /redoc.
 
-###🚀 Quick Start
+### 🚀 Quick Start
 Clone the repository:
 
 ```
