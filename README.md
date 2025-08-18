@@ -1,34 +1,41 @@
-# 📊 QRKot Spreadsheets — FastAPI + Google Sheets
-Backend for managing charity projects and donations with automatic investing and Google Sheets reports.
-Create projects with target amounts, accept donations that are auto-allocated to open projects, and generate a shareable spreadsheet via a Google service account.
+# 📊 QRKot Spreadsheets — FastAPI + Google Sheets  
 
-## 🧰 Tech Stack
-[![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)](https://www.python.org/) 
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.9x-009688?logo=fastapi)](https://fastapi.tiangolo.com/) 
-[![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-8A2BE2?logo=python)](https://www.sqlalchemy.org/) 
-[![Alembic](https://img.shields.io/badge/Alembic-DB%20migrations-4B8BBE?logo=python)](https://alembic.sqlalchemy.org/) 
-[![Pydantic](https://img.shields.io/badge/Pydantic-Validation-E92063?logo=pydantic)](https://docs.pydantic.dev/) 
-[![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-3949AB?logo=python)](https://www.uvicorn.org/) 
-[![SQLite](https://img.shields.io/badge/SQLite-DB-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/) 
-[![Google%20Sheets%20API](https://img.shields.io/badge/Google%20Sheets%20API-Reports-34A853?logo=googlesheets&logoColor=white)](https://developers.google.com/sheets) 
-[![Google%20Drive%20API](https://img.shields.io/badge/Google%20Drive%20API-Sharing-4285F4?logo=googledrive&logoColor=white)](https://developers.google.com/drive) 
-[![Pytest](https://img.shields.io/badge/Pytest-Tests-0A9EDC?logo=pytest)](https://docs.pytest.org/) 
-[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-6BA539?logo=openapiinitiative&logoColor=white)](https://www.openapis.org/)
+A **backend service** for managing **charity projects** and **donations** with automatic fund distribution and Google Sheets integration.  
+Users can create projects with target amounts, donate to the fund, and generate **shareable spreadsheets** with project statistics using a Google service account.  
 
+---
 
+## 📌 About the Project  
 
-## ✨ Features
-🏗 Projects & Donations — create projects (name, description, goal); donations are automatically invested into open projects until targets are reached.
+**QRKot Spreadsheets** was built to streamline charity workflows:  
 
-📈 Google Sheets reports — create a spreadsheet with top projects by completion speed and grant user access via Google Drive.
+- 🎯 Create projects with goals (target amount, description, lifecycle tracking)  
+- 💸 Accept donations that are **auto-allocated** into open projects  
+- 📈 Export reports to **Google Sheets** and manage access via **Google Drive API**  
+- 🧠 Keep the API endpoints slim by pushing the **investment logic** into a dedicated service layer  
 
-👤 Auth & roles — registration/authentication; superuser-only protected operations.
+---
 
-🛡 Clean architecture — Pydantic schemas, SQLAlchemy models, CRUD layer, validation, service layer (investment + Google API).
+## 🧰 Tech Stack  
 
-🔄 Migrations & tests — Alembic baseline; comprehensive pytest suite with fixtures.
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/> <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white"/> <img src="https://img.shields.io/badge/SQLAlchemy-8A2BE2?style=for-the-badge&logo=sqlalchemy&logoColor=white"/> <img src="https://img.shields.io/badge/Alembic-cc9900?style=for-the-badge&logo=python&logoColor=white"/> <img src="https://img.shields.io/badge/Pydantic-E92063?style=for-the-badge&logo=pydantic&logoColor=white"/> <img src="https://img.shields.io/badge/Uvicorn-000000?style=for-the-badge&logo=uvicorn&logoColor=white"/> <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white"/> <img src="https://img.shields.io/badge/Google%20Sheets-34A853?style=for-the-badge&logo=googlesheets&logoColor=white"/> <img src="https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white"/> <img src="https://img.shields.io/badge/Pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white"/> <img src="https://img.shields.io/badge/OpenAPI-6BA539?style=for-the-badge&logo=openapiinitiative&logoColor=white"/>  
 
-📜 Interactive API docs — OpenAPI available at /docs and /redoc.
+---
+
+## ✨ Features  
+
+- 🏗 **Projects & Donations** — define projects (name, description, target sum); donations are distributed until projects are fully funded.  
+- 🧠 **Smart investment logic** — donations and projects track `full_amount` and `invested_amount`; funds are allocated automatically:  
+  - When a project or donation reaches its target, it is marked **fully invested** with a `close_date`.  
+  - Distribution stops once either side is satisfied.  
+  - Keeps endpoints slim — logic is in `services/investment.py`.  
+- 📈 **Google Sheets reports** — generate spreadsheets of top-funded projects and share access through Google Drive.  
+- 👤 **Authentication & roles** — users register/authenticate; privileged operations require superuser rights.  
+- 🛡 **Clean architecture** — Pydantic schemas, SQLAlchemy models, service layer, CRUD logic.  
+- 🔄 **Migrations & testing** — Alembic migrations and a pytest suite with fixtures.  
+- 📜 **Interactive API docs** — OpenAPI schema at **/docs** and **/redoc**.  
+
+---
 
 ### 🚀 Quick Start
 Clone the repository:
